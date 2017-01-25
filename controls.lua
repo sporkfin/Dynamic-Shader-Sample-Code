@@ -25,8 +25,6 @@ local w_alpha, w_intensity, w_zValue, w_linear, w_constant, w_quadratic, w_light
 
       w_pulseLight, pulseLight_label
 
-
-
   
 -- responses for event listners
 local function sliderListener( e )
@@ -71,7 +69,6 @@ local function sliderListener( e )
         shader.setLightPulse(b)
         if (b == false) then -- turn on widgets and reset values for alpha, intensity, zValue and lightType   
             shader.stopPulse()
-            shader.cancelTransitions()
             local cA,  cI,   cZ = momath.round(lt.alpha,2), momath.round(lt.intensity,2), momath.round(lt.zValue,2)
             local cA1, cI1, cZ1 = cA*100, cI*100, cZ*100
             w_alpha.alpha     = 1     ; alpha_label.alpha     = 1  ; alpha_text.alpha     = 1 
@@ -257,8 +254,6 @@ quadratic_label.alpha = 0 ; quadratic_label:setFillColor( 0.7, 0.3, 0.7 )
 quadratic_text = display.newText("quadratic", 102, 229, 'Helvetica', 9);
 quadratic_text.alpha = 0
 quadratic_text.text = w_quadratic.value * 0.01 
-
-
 
 
 

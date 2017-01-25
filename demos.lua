@@ -4,10 +4,41 @@ local shader 		= require("plugin.dynamic_shader")
 local widget        = require("widget")
 
 local objectList    = shader.getObjectListStart()    -- table of objects
+local methodTest
+local textBack = display.newRect( display.contentCenterX, 0, display.contentWidth, 100 ) ; textBack.alpha = 0
+local goDemo = true
+
+local function startDemo( e )
+	if (goDemo == true) then
+		goDemo = false
+		methodTest()
+	end
+end
+
+
+local w_demo = widget.newSwitch(
+    {
+        name = "demoBut",
+        left = display.contentWidth - 46,
+        top = 16,
+        style = "checkbox",
+        id = "demoBut",
+        initialSwitchState = false,
+        onRelease = startDemo
+        --onPress = sliderListener
+    }
+)
+local demo_label = display.newText("Start Demo", display.contentWidth - 30, 10,  'Helvetica', 8);
+demo_label:setFillColor( 0.1, 0.6, 0.8 )
 
 ------------------ Method Tests --------------
-local function methodTest(  )
-	local textBack = display.newRect( display.contentCenterX, 0, display.contentWidth, 70 )
+function methodTest(  )
+
+	transition.to( w_demo, {delay = 500, time = 1500, alpha = 0, onComplete = function()
+		--w_demo:setState(false) 
+		end} )
+	transition.to( demo_label, {delay = 500, time = 1500, alpha = 0} )
+	
 	textBack:setFillColor( 0, 0, 0 ) ; textBack.alpha = 0.85
 	local delayTime, timeTime, totalTime, alphaStart, alphaEnd = 4000, 2000, 7000, 0.8, 0
 	local methodText = display.newText("Dynamic Shader Method Test", display.contentCenterX, 16, 'Helvetica', 12) ; --methodText.alpha = alphaStart
@@ -22,7 +53,7 @@ local function methodTest(  )
 			methodText.text = "shader.removeObject() - remove objects from Dynamic Shader\nshader.stop() - stopping the Dynamic Shader"
 			transition.to( methodText, {delay = delayTime, time = timeTime, alpha = alphaEnd} )
 	        for i=1,30 do
-	        	if (objectList[i]) then
+	        	if (objectList[i] and objectList[i].shaderInfo) then
 	        		reshade[#reshade+1] = objectList[i]
 	        		reshadeInfo[#reshadeInfo+1] = {
 	        			objectList[i].shaderInfo.map1, -- save the image file reference
@@ -80,23 +111,14 @@ local function methodTest(  )
 		end )
 
 	timer.performWithDelay( totalTime * 4 + 1000, function() 
-			transition.to( textBack, {delay = delayTime, time = timeTime, alpha = alphaEnd} )
+			transition.to( textBack, {delay = delayTime, time = timeTime, alpha = alphaEnd, onComplete = function()
+				transition.to( w_demo, {time = 1500, alpha = 1; onComplete = function()
+						goDemo = true
+					end} )
+				transition.to( demo_label, {time = 1500, alpha = 1} )
+				end} )
 		end )
 end
 
-local w_demo = widget.newSwitch(
-    {
-        name = "demoBut",
-        left = display.contentWidth - 46,
-        top = 20,
-        style = "checkbox",
-        id = "demoBut",
-        initialSwitchState = false,
-        onRelease = methodTest
-        --onPress = sliderListener
-    }
-)
-local demo_label = display.newText("Start Demo", display.contentWidth - 46, 10,  'Helvetica', 8);
-demo_label:setFillColor( 0.1, 0.6, 0.8 )
 
 return M

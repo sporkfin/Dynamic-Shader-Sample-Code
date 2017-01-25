@@ -4,10 +4,7 @@ settings =
 {
     plugins =
     {
-        ["plugin.tweentrain"]   = { publisherId = "com.erinylin" },
-        ["plugin.faceDetector"] = { publisherId = "net.shakebrowser" },
         ["plugin.dynamic_shader"] = { publisherId = "com.sporkfin" },
-
     },   
     
 	android =

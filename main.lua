@@ -57,10 +57,12 @@ end
 ----- Define the light source -----
 local light = display.newImageRect( "art/light.png", 50, 50 ) 
 light.x = cx ; light.y = cy
-light:setFillColor( 1, 1, 1) -- this is the default color
+local lightColor = {1, 1, 1}
+light:setFillColor(lightColor) -- this is the default color
 -----------------------------------------------------------------------------------
 ----- Add the light source to the Dynamic Shader -----
 shader.addLight(light)
+shader.setLightColor(lightColor)
 -----------------------------------------------------------------------------------
 ----- Add touch-controlled movement for the light -----
 light:addEventListener( "touch", move )
